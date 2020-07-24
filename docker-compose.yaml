@@ -1,0 +1,21 @@
+version: '3'
+# docker run -d -p 8080:80 --link 5c465774d9b8:server --name nginx-proxy  docknginx
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 9898
+  nginx:
+    build:
+      context: ./Docker_nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - 8080:8080
